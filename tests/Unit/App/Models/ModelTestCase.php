@@ -12,21 +12,33 @@ abstract class ModelTestCase extends TestCase
     abstract protected function expectedFillables(): array;
     abstract protected function expectedCasts(): array;
 
-    //Exemplo de teste em traits
+    /**
+     * Exemplo de teste em traits
+     *
+     * @return void
+     */
     public function test_traits(): void
     {
         $traits = array_keys(class_uses($this->model()));
         $this->assertEquals($this->expectedTraits(), $traits);
     }
 
-    //Exemplo de teste em fillable.
+    /**
+     * Exemplo de teste em fillable.
+     *
+     * @return void
+     */
     public function test_fillables()
     {
         $fillables = $this->model()->getFillable();
         $this->assertEquals($this->expectedFillables(), $fillables);
     }
 
-    //Exemplo de teste em casts.
+    /**
+     * Exemplo de teste em casts.
+     *
+     * @return void
+     */
     public function test_casts()
     {
         $casts = $this->model()->getCasts();

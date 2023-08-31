@@ -14,7 +14,11 @@ class UserRepositoryTest extends TestCase
 {
     protected UserRepositoryInterface $repository;
 
-    //Sobrescrevendo o método padrão de setUp do PHPUnit.
+    /**
+     * Sobrescrevendo o método padrão de setUp do PHPUnit.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         $this->repository = new UserRepository(new User());
@@ -22,7 +26,11 @@ class UserRepositoryTest extends TestCase
         parent::setUp();
     }
 
-    //Testando se o repositório foi implementado pela interface, seguindo padrões SOLID.
+    /**
+     * Testando se o repositório foi implementado pela interface, seguindo padrões SOLID.
+     *
+     * @return void
+     */
     public function test_implements_interface()
     {
         $this->assertInstanceOf(
@@ -31,7 +39,11 @@ class UserRepositoryTest extends TestCase
         );
     }
 
-    //Testando a busca por usuários vazios no banco.
+    /**
+     * Testando a busca por usuários vazios no banco.
+     *
+     * @return void
+     */
     public function test_find_all_empty(): void
     {
         $repository = $this->repository;
@@ -41,7 +53,11 @@ class UserRepositoryTest extends TestCase
         $this->assertCount(0, $response);
     }
 
-    //Testando a busca de todos os usuários no banco.
+    /**
+     * Testando a busca de todos os usuários no banco.
+     *
+     * @return void
+     */
     public function test_find_all(): void
     {
         User::factory()->count(10)->create();
@@ -51,7 +67,11 @@ class UserRepositoryTest extends TestCase
         $this->assertCount(10, $response);
     }
 
-    //Testando a criação de um novo usuário.
+    /**
+     * Testando a criação de um novo usuário.
+     *
+     * @return void
+     */
     public function test_create()
     {
         $data = [
@@ -68,7 +88,11 @@ class UserRepositoryTest extends TestCase
         ]);
     }
 
-    //Testando uma exceção na criação de 1 usuário inválido.
+    /**
+     * Testando uma exceção na criação de 1 usuário inválido.
+     *
+     * @return void
+     */
     public function test_create_exception()
     {
         $this->expectException(QueryException::class);
@@ -86,7 +110,12 @@ class UserRepositoryTest extends TestCase
         ]);
     }
 
-    //Testando a localização de um usuário no banco por e-mail.
+    /**
+     * Testando a localização de um usuário no banco por e-mail.
+     *
+     * @return void
+     * @throws \App\Exceptions\NotFoundException
+     */
     public function test_find()
     {
         $user = User::factory()->create();
@@ -95,7 +124,11 @@ class UserRepositoryTest extends TestCase
         $this->assertIsObject($response);
     }
 
-    //Testando a atualização de dados de um usuário.
+    /**
+     * Testando a atualização de dados de um usuário.
+     *
+     * @return void
+     */
     public function test_update()
     {
        $user = User::factory()->create();
@@ -111,7 +144,11 @@ class UserRepositoryTest extends TestCase
         ]);
     }
 
-    //Testando o delete de um usuário.
+    /**
+     * Testando o delete de um usuário.
+     *
+     * @return void
+     */
     public function test_delete()
     {
         $user = User::factory()->create();
