@@ -28,6 +28,14 @@ class Handler extends ExceptionHandler
         });
     }
 
+    /**
+     * Sobrescevendo o método render para disparar um array de erros toda vez que minha exception personalizada for atirada.
+     *
+     * @param $request
+     * @param Throwable $e
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Throwable
+     */
     public function render($request, Throwable $e)
     {
         if($e instanceof NotFoundException) {
