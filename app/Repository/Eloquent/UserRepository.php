@@ -2,8 +2,11 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Exceptions\NotFoundException;
 use App\Models\User;
+use App\Repository\Contracts\PaginateResponseInterface;
 use App\Repository\Contracts\UserRepositoryInterface;
+use App\Repository\Presenter\PaginationPresenter;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -40,10 +43,15 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param string $email
      * @return object|null
+     * @throws NotFoundException
      */
-    public function find(string $email): ?object
+    public function find(string $email): object
     {
-        return $this->model->where('email',$email);
+        if(!$user = $this->model->where('email',$email)->first()){
+            throw new NotFoundException("User Not Found");
+        }
+
+        return $user;
     }
 
     /**
@@ -56,6 +64,7 @@ class UserRepository implements UserRepositoryInterface
     public function update(string $email, array $data): object
     {
         $user = $this->find($email);
+
         $user->update($data);
         return $user;
     }
@@ -69,6 +78,17 @@ class UserRepository implements UserRepositoryInterface
     public function delete(string $email): bool
     {
         $user = $this->find($email);
+
         return $user->delete();
+    }
+
+    /**
+     * Método que retorna todos os usuários do banco com paginação.
+     *
+     * @return array
+     */
+    public function paginate(int $page = 1): PaginateResponseInterface
+    {
+        return new PaginationPresenter($this->model->paginate());
     }
 }
